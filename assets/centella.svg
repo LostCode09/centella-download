@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="150" y1="90" x2="900" y2="960" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111716"/>
+      <stop offset=".45" stop-color="#080A09"/>
+      <stop offset="1" stop-color="#040605"/>
+    </linearGradient>
+    <radialGradient id="ambient" gradientUnits="userSpaceOnUse" cx="760" cy="330" r="560">
+      <stop stop-color="#4ADE80" stop-opacity=".07"/>
+      <stop offset="1" stop-color="#4ADE80" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="planet" gradientUnits="userSpaceOnUse" cx="396" cy="352" r="440">
+      <stop stop-color="#B0B0B0"/>
+      <stop offset=".20" stop-color="#585858"/>
+      <stop offset=".46" stop-color="#262626"/>
+      <stop offset=".74" stop-color="#0E0E0E"/>
+      <stop offset="1" stop-color="#040404"/>
+    </radialGradient>
+    <linearGradient id="rim" gradientUnits="userSpaceOnUse" x1="306" y1="270" x2="748" y2="770">
+      <stop stop-color="#FFFFFF" stop-opacity=".85"/>
+      <stop offset=".30" stop-color="#FFFFFF" stop-opacity=".14"/>
+      <stop offset=".62" stop-color="#FFFFFF" stop-opacity=".03"/>
+      <stop offset="1" stop-color="#DCE6E1" stop-opacity=".18"/>
+    </linearGradient>
+    <linearGradient id="band" gradientUnits="userSpaceOnUse" x1="86" y1="512" x2="938" y2="512">
+      <stop stop-color="#4E5954"/>
+      <stop offset=".10" stop-color="#DCE5E1"/>
+      <stop offset=".26" stop-color="#B4C0BA"/>
+      <stop offset=".44" stop-color="#8A9691"/>
+      <stop offset=".56" stop-color="#7F8B86"/>
+      <stop offset=".66" stop-color="#63DA92"/>
+      <stop offset=".78" stop-color="#4ADE80"/>
+      <stop offset=".90" stop-color="#1CA556"/>
+      <stop offset="1" stop-color="#8DF2B8"/>
+    </linearGradient>
+    <linearGradient id="bandSoft" gradientUnits="userSpaceOnUse" x1="86" y1="512" x2="938" y2="512">
+      <stop stop-color="#8A9791"/>
+      <stop offset=".45" stop-color="#C3CDC9"/>
+      <stop offset=".62" stop-color="#9BE8BB"/>
+      <stop offset="1" stop-color="#3FBF74"/>
+    </linearGradient>
+    <linearGradient id="glint" gradientUnits="userSpaceOnUse" x1="150" y1="512" x2="900" y2="512">
+      <stop stop-color="#FFFFFF" stop-opacity=".55"/>
+      <stop offset=".40" stop-color="#FFFFFF" stop-opacity=".12"/>
+      <stop offset=".74" stop-color="#E6FFF1" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity=".9"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="26"/></filter>
+    <filter id="haze" x="-40%" y="-120%" width="180%" height="340%"><feGaussianBlur stdDeviation="20"/></filter>
+    <filter id="shadowBlur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="15"/></filter>
+    <clipPath id="tile"><rect x="100" y="100" width="824" height="824" rx="184"/></clipPath>
+    <clipPath id="planetClip"><circle cx="512" cy="512" r="262"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#tile)">
+    <rect x="100" y="100" width="824" height="824" fill="url(#bg)"/>
+    <rect x="100" y="100" width="824" height="824" fill="url(#ambient)"/>
+
+    <g transform="translate(512 512) scale(0.858) translate(-512 -512)">
+
+    <g transform="rotate(-16 512 512)">
+      <!-- rings passing behind the planet: upper arcs -->
+      <g fill="none" stroke="url(#band)" stroke-linecap="round">
+        <path d="M96 512 A416 92 0 0 1 928 512" stroke-width="20" stroke-opacity=".8"/>
+        <path d="M118 512 A394 87 0 0 1 906 512" stroke-width="3.5" stroke-opacity=".5"/>
+        <path d="M140 512 A372 82 0 0 1 884 512" stroke-width="2.5" stroke-opacity=".28"/>
+      </g>
+    </g>
+
+    <!-- planet -->
+    <circle cx="512" cy="512" r="262" fill="url(#planet)"/>
+    <g clip-path="url(#planetClip)">
+      <!-- soft cloud banding -->
+      <g fill="#FFFFFF">
+        <ellipse cx="512" cy="372" rx="258" ry="30" opacity=".022"/>
+        <ellipse cx="512" cy="430" rx="262" ry="20" opacity=".016"/>
+        <ellipse cx="512" cy="492" rx="262" ry="26" opacity=".02"/>
+        <ellipse cx="512" cy="560" rx="260" ry="18" opacity=".014"/>
+        <ellipse cx="512" cy="626" rx="252" ry="30" opacity=".012"/>
+      </g>
+      <g fill="#000000">
+        <ellipse cx="512" cy="398" rx="260" ry="18" opacity=".06"/>
+        <ellipse cx="512" cy="470" rx="262" ry="14" opacity=".05"/>
+        <ellipse cx="512" cy="536" rx="261" ry="20" opacity=".06"/>
+        <ellipse cx="512" cy="676" rx="244" ry="24" opacity=".08"/>
+      </g>
+      <!-- key light -->
+      <ellipse cx="408" cy="368" rx="132" ry="96" fill="#FFFFFF" opacity=".10" filter="url(#soft)" transform="rotate(-18 408 368)"/>
+      <!-- emerald bounce from the ring -->
+      <ellipse cx="612" cy="626" rx="168" ry="52" fill="#4ADE80" opacity=".085" filter="url(#soft)" transform="rotate(-16 612 626)"/>
+    </g>
+    <circle cx="512" cy="512" r="260.5" fill="none" stroke="url(#rim)" stroke-width="3.5"/>
+
+    <g transform="rotate(-16 512 512)">
+      <!-- rings passing in front of the planet: lower arcs -->
+      <g fill="none" stroke="url(#bandSoft)" opacity=".4" filter="url(#haze)">
+        <path d="M100 512 A412 91 0 0 0 924 512" stroke-width="26"/>
+      </g>
+      <g fill="none" stroke="url(#band)" stroke-linecap="round">
+        <path d="M96 512 A416 92 0 0 0 928 512" stroke-width="20" stroke-opacity=".94"/>
+        <path d="M118 512 A394 87 0 0 0 906 512" stroke-width="3.5" stroke-opacity=".62"/>
+        <path d="M140 512 A372 82 0 0 0 884 512" stroke-width="2.5" stroke-opacity=".34"/>
+        <path d="M78 512 A434 96 0 0 0 946 512" stroke-width="1.8" stroke-opacity=".55"/>
+      </g>
+      <g fill="none" stroke="url(#glint)" stroke-linecap="round" opacity=".8">
+        <path d="M100 512 A412 91.5 0 0 0 924 512" stroke-width="1.6"/>
+      </g>
+    </g>
+    </g>
+  </g>
+
+  <rect x="101" y="101" width="822" height="822" rx="183" fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="2"/>
+</svg>

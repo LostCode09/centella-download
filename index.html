@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centella — VPN для macOS</title>
+<meta name="description" content="Centella — VPN-клиент для macOS на sing-box и Xray: VLESS Reality, Trojan, Hysteria 2, Shadowsocks и VMess. Без аккаунта и подписки.">
+<meta property="og:title" content="Centella — VPN для macOS">
+<meta property="og:description" content="VPN-клиент для macOS на sing-box и Xray. Один файл, без аккаунта.">
+<meta property="og:image" content="https://lostcode09.github.io/centella-download/assets/icon-512.png">
+<meta property="og:url" content="https://lostcode09.github.io/centella-download/">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="assets/centella.svg">
+<link rel="apple-touch-icon" href="assets/icon-256.png">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #FAFAFA;
+    --muted: #A1A1A1;
+    --line: #262626;
+    --line-soft: rgba(250, 250, 250, .07);
+    --bg: #080A09;
+    --bg-raised: #101211;
+    --accent: #4ADE80;
+    --accent-dim: rgba(74, 222, 128, .14);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 16px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20% -10% auto auto;
+    width: 780px;
+    height: 780px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(74, 222, 128, .09), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    width: min(1120px, 100% - 48px);
+    margin: 0 auto;
+  }
+
+  /* ---------- header ---------- */
+
+  header {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .brand img {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    transition: color .18s ease;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ---------- buttons ---------- */
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    height: 46px;
+    padding: 0 22px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: var(--ink);
+    color: #0A0A0A;
+    font: 600 14px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    letter-spacing: .01em;
+    text-decoration: none;
+    transition: background .18s ease, transform .18s ease;
+    white-space: nowrap;
+  }
+
+  .button:hover { background: #E4E4E4; }
+  .button:active { transform: translateY(1px); }
+
+  .button.small {
+    height: 34px;
+    padding: 0 15px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+
+  .button svg { flex: none; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1.06fr;
+    align-items: center;
+    gap: 64px;
+    padding: 84px 0 76px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 22px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    margin: 0 0 20px;
+    font-size: clamp(38px, 4.4vw, 57px);
+    line-height: 1.04;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
+  .lede {
+    margin: 0 0 32px;
+    max-width: 41ch;
+    font-size: 16.5px;
+    color: var(--muted);
+  }
+
+  .lede strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  .quiet-link {
+    font-size: 13.5px;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    transition: color .18s ease, border-color .18s ease;
+  }
+
+  .quiet-link:hover { color: var(--ink); border-color: var(--muted); }
+
+  .release-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 26px 0 0;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .release-meta span { white-space: nowrap; }
+
+  .sha {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11.5px;
+    color: #8b8b8b;
+  }
+
+  .sha button {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--muted);
+    font: inherit;
+    cursor: pointer;
+    border-bottom: 1px dotted #404040;
+  }
+
+  .sha button:hover { color: var(--accent); border-color: var(--accent); }
+
+  .shot {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-raised);
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .9);
+  }
+
+  .shot img { display: block; width: 100%; height: auto; }
+
+  /* ---------- sections ---------- */
+
+  section { border-top: 1px solid var(--line-soft); }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 64px 0 40px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(24px, 2.4vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  .section-head p {
+    margin: 0;
+    max-width: 38ch;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 48px;
+    padding-bottom: 24px;
+  }
+
+  .feature {
+    border-top: 1px solid var(--line);
+    padding: 22px 0 34px;
+  }
+
+  .feature .index {
+    display: block;
+    margin-bottom: 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px;
+    color: #6f6f6f;
+    letter-spacing: .08em;
+  }
+
+  .feature h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  .feature p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.62;
+    color: var(--muted);
+  }
+
+  /* ---------- install ---------- */
+
+  .install {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 64px;
+    padding-bottom: 80px;
+  }
+
+  .install h2 { margin-bottom: 16px; }
+
+  .install .note {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 34ch;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+  }
+
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 22px 44px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .steps li:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+    font: 500 11.5px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--muted);
+  }
+
+  .steps strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .callout {
+    margin-top: 8px;
+    padding: 16px 18px;
+    border-left: 2px solid var(--accent);
+    background: linear-gradient(90deg, var(--accent-dim), rgba(74, 222, 128, 0));
+    font-size: 13px;
+    line-height: 1.6;
+    color: #c9c9c9;
+  }
+
+  .callout strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 30px 0 40px;
+    font-size: 12.5px;
+    color: #7a7a7a;
+  }
+
+  footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 44px; padding: 48px 0 52px; }
+    .features { grid-template-columns: repeat(2, 1fr); gap: 0 36px; }
+    .install { grid-template-columns: 1fr; gap: 36px; padding-bottom: 56px; }
+    .section-head { flex-direction: column; align-items: flex-start; gap: 12px; padding: 48px 0 30px; }
+    .nav-links { gap: 18px; }
+  }
+
+  @media (max-width: 560px) {
+    .wrap { width: min(1120px, 100% - 32px); }
+    .features { grid-template-columns: 1fr; }
+    .nav-links a:not(.button) { display: none; }
+    .lede { font-size: 15.5px; }
+    .release-meta { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="./">
+      <img src="assets/icon-256.png" alt="">
+      Centella
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Возможности</a>
+      <a href="#install">Установка</a>
+      <a class="button small" href="https://github.com/LostCode09/centella-download/releases/download/v0.3.0/Centella-0.3.0.dmg">Скачать</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">VPN для macOS</p>
+      <h1>Ваш Mac.<br>Ваш трафик.</h1>
+      <p class="lede">
+        Centella — клиент для VLESS, Trojan, Hysteria 2, Shadowsocks и VMess
+        на sing-box и Xray. <strong>Без аккаунта, подписки и телеметрии.</strong>
+      </p>
+      <div class="actions">
+        <a class="button" href="https://github.com/LostCode09/centella-download/releases/download/v0.3.0/Centella-0.3.0.dmg">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1v8m0 0 3-3m-3 3L4 6M2 10.5V12h10v-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Скачать 0.3.0
+        </a>
+        <a class="quiet-link" href="#install">Как установить</a>
+      </div>
+      <p class="release-meta">
+        <span>Apple Silicon</span>
+        <span>macOS 15 Sequoia или новее</span>
+        <span>32 МБ</span>
+        <span class="sha">
+          SHA-256&nbsp;c8a4c9eb…aee1e1
+          <button type="button" data-sha="c8a4c9eb008d7ca982e1c88ed8260ca9cb77519bc37b505dd1cb13e6faff3d28">копировать</button>
+        </span>
+      </p>
+    </div>
+
+    <div class="shot">
+      <img src="assets/app.jpg" width="2034" height="1616" alt="Кнопка подключения в виде Сатурна и панель режимов в Centella">
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Что внутри</h2>
+        <p>Один процесс, три режима работы и всё, что нужно для повседневного соединения.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <span class="index">01</span>
+          <h3>Пять протоколов</h3>
+          <p>VLESS с Reality и XHTTP, Trojan, Hysteria 2, Shadowsocks и VMess. Конфигурации импортируются из файла или ссылки.</p>
+        </article>
+        <article class="feature">
+          <span class="index">02</span>
+          <h3>VPN, прокси или вручную</h3>
+          <p>TUN забирает весь трафик Mac, включая UDP и DNS. Системный прокси подходит программам, которые читают настройки macOS. Третий режим — локальный прокси с паролем.</p>
+        </article>
+        <article class="feature">
+          <span class="index">03</span>
+          <h3>Kill switch</h3>
+          <p>Блокирует сеть при обрыве соединения или постоянно, пока VPN не подключён. Правила снимаются при выходе из приложения.</p>
+        </article>
+        <article class="feature">
+          <span class="index">04</span>
+          <h3>Подписки и пинг</h3>
+          <p>Серверы обновляются по ссылке подписки, задержка измеряется для каждого узла. Автовыбор берёт лучший.</p>
+        </article>
+        <article class="feature">
+          <span class="index">05</span>
+          <h3>Меню-бар</h3>
+          <p>Состояние и переключение без открытия окна. Настройки — ⌘, в любом режиме.</p>
+        </article>
+        <article class="feature">
+          <span class="index">06</span>
+          <h3>Локально</h3>
+          <p>Профили, подписки и журнал остаются на Mac. Приложение не отправляет статистику и не требует учётной записи.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap install">
+      <div>
+        <h2>Установка</h2>
+        <p class="note">Займёт минуту. Приложение не подписано сертификатом Apple, поэтому первый запуск требует подтверждения.</p>
+        <div class="callout">
+          <strong>Первый запуск.</strong> Откройте «Системные настройки» → «Конфиденциальность и безопасность» и нажмите «Всё равно открыть» напротив Centella. Это нужно один раз.
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <strong>Скачайте DMG</strong>
+          Нажмите «Скачать 0.3.0» — файл загрузится с GitHub Releases.
+        </li>
+        <li>
+          <strong>Перетащите Centella в «Программы»</strong>
+          Откройте образ и перенесите приложение в папку «Программы».
+        </li>
+        <li>
+          <strong>Подключитесь</strong>
+          Импортируйте конфигурацию, выберите сервер и нажмите «Подключить». Для режима VPN macOS попросит пароль администратора — он нужен, чтобы установить системный помощник.
+        </li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Centella для macOS · бесплатно для личного использования</span>
+    <span>
+      <a href="https://github.com/LostCode09/centella-download/releases">Все версии</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  const button = document.querySelector('[data-sha]');
+  if (button) {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.sha);
+        const original = button.textContent;
+        button.textContent = 'скопировано';
+        setTimeout(() => { button.textContent = original; }, 1600);
+      } catch {}
+    });
+  }
+</script>
+
+</body>
+</html>
