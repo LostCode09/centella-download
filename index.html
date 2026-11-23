@@ -517,8 +517,8 @@
         <span>macOS 15 Sequoia или новее</span>
         <span>32 МБ</span>
         <span class="sha">
-          SHA-256&nbsp;73c201d9…6000d8
-          <button type="button" data-copy="73c201d975f907eed82295d85671ad3d7fed9131536fc7dbf0871c46fd6000d8">копировать</button>
+          SHA-256&nbsp;d012f7e3…f8ceae
+          <button type="button" data-copy="d012f7e316e26d7b3c12d0c62ee1bd92f1cfe66e0ad86ffdf844bc040df8ceae">копировать</button>
         </span>
       </p>
     </div>
@@ -576,16 +576,25 @@
         <h2>Установка</h2>
         <p class="note">Займёт минуту. Приложение не подписано сертификатом Apple, поэтому первый запуск требует подтверждения.</p>
         <div class="callout">
-          <strong>Первый запуск.</strong> macOS покажет «Файл «Centella» не был открыт»: система не может проверить приложение, потому что оно не подписано сертификатом Apple. Это проверка Gatekeeper, а не ошибка файла.
+          <strong>Первый запуск.</strong> Сначала перенесите Centella в «Программы», сразу выполните команду ниже и только потом запускайте. macOS не может проверить приложение, потому что оно не подписано сертификатом Apple: это проверка Gatekeeper, а не ошибка файла.
         </div>
 
         <div class="fix">
-          <p>Скопируйте команду в Терминал (Программы → Утилиты → Терминал) и запустите Centella снова:</p>
+          <p>Скопируйте в Терминал (Программы → Утилиты → Терминал):</p>
           <div class="command">
             <code>xattr -dr com.apple.quarantine /Applications/Centella.app</code>
             <button type="button" data-copy="xattr -dr com.apple.quarantine /Applications/Centella.app">копировать</button>
           </div>
-          <p class="hint">Команда снимает с приложения отметку о загрузке из интернета, ничего не удаляя. Нужна один раз. Вместо Терминала можно открыть «Системные настройки» → «Конфиденциальность и безопасность»: кнопка «Всё равно открыть» есть не во всех версиях macOS.</p>
+          <p class="hint">Команда снимает с приложения отметку о загрузке из интернета, ничего не удаляя. Нужна один раз.</p>
+        </div>
+
+        <div class="fix">
+          <p>Если окно «Файл «Centella» не был открыт» уже появлялось, macOS запомнила отказ для этого пути. После команды переместите приложение туда и обратно:</p>
+          <div class="command">
+            <code>mv /Applications/Centella.app ~/Centella.app &amp;&amp; mv ~/Centella.app /Applications/Centella.app</code>
+            <button type="button" data-copy="mv /Applications/Centella.app ~/Centella.app &amp;&amp; mv ~/Centella.app /Applications/Centella.app">копировать</button>
+          </div>
+          <p class="hint">Или перезагрузите Mac после первой команды. Вместо Терминала можно открыть «Системные настройки» → «Конфиденциальность и безопасность»: кнопка «Всё равно открыть» есть не во всех версиях macOS.</p>
         </div>
       </div>
 
