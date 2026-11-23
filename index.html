@@ -388,6 +388,50 @@
 
   .callout strong { color: var(--ink); font-weight: 500; }
 
+  .fix { margin-top: 26px; }
+
+  .fix p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .fix .hint { margin: 12px 0 0; font-size: 12.5px; color: #7a7a7a; }
+
+  .command {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px 11px 14px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #0C0E0D;
+    overflow-x: auto;
+  }
+
+  .command code {
+    flex: 1;
+    min-width: max-content;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    color: #D6D6D6;
+  }
+
+  .command button {
+    appearance: none;
+    flex: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    font: 500 12px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 1px dotted #404040;
+  }
+
+  .command button:hover { color: var(--accent); border-color: var(--accent); }
+
   /* ---------- footer ---------- */
 
   footer {
@@ -464,8 +508,8 @@
         <span>macOS 15 Sequoia или новее</span>
         <span>32 МБ</span>
         <span class="sha">
-          SHA-256&nbsp;c8a4c9eb…aee1e1
-          <button type="button" data-sha="c8a4c9eb008d7ca982e1c88ed8260ca9cb77519bc37b505dd1cb13e6faff3d28">копировать</button>
+          SHA-256&nbsp;87f85d2d…4a24a2
+          <button type="button" data-copy="87f85d2d9b462dc3c1b20c7583f3bf47fbb9940d276e46e99f7ddc8a8a4a24a2">копировать</button>
         </span>
       </p>
     </div>
@@ -525,6 +569,15 @@
         <div class="callout">
           <strong>Первый запуск.</strong> Откройте «Системные настройки» → «Конфиденциальность и безопасность» и нажмите «Всё равно открыть» напротив Centella. Это нужно один раз.
         </div>
+
+        <div class="fix">
+          <p>Если macOS пишет, что Centella повреждена, и кнопки «Всё равно открыть» нет, снимите карантин:</p>
+          <div class="command">
+            <code>xattr -dr com.apple.quarantine /Applications/Centella.app</code>
+            <button type="button" data-copy="xattr -dr com.apple.quarantine /Applications/Centella.app">копировать</button>
+          </div>
+          <p class="hint">Команда выполняется в Терминале один раз после установки. Она снимает с приложения отметку о загрузке из интернета, ничего не удаляя.</p>
+        </div>
       </div>
 
       <ol class="steps">
@@ -555,17 +608,16 @@
 </footer>
 
 <script>
-  const button = document.querySelector('[data-sha]');
-  if (button) {
+  document.querySelectorAll('[data-copy]').forEach((button) => {
     button.addEventListener('click', async () => {
       try {
-        await navigator.clipboard.writeText(button.dataset.sha);
+        await navigator.clipboard.writeText(button.dataset.copy);
         const original = button.textContent;
         button.textContent = 'скопировано';
         setTimeout(() => { button.textContent = original; }, 1600);
       } catch {}
     });
-  }
+  });
 </script>
 
 </body>
